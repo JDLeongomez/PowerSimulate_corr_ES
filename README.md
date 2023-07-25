@@ -3,7 +3,7 @@
 ## Correlación
 <br>
 Análisis de poder basado en la simulación de una población y en la probabilidad de obtener un resultado significativo con una muestra de un tamaño determinado.
-Aunque existen herramientas más directas para el análisis de poder en el caso de las pruebas *t*, esta aplicación se basa en simulaciones para ilustrar el concepto de poder estadístico
+Aunque existen herramientas más directas para el análisis de poder en el caso de las correlaciones*, esta aplicación se basa en simulaciones para ilustrar el concepto de poder estadístico
 
 <hr>
 
