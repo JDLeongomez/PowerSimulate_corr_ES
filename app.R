@@ -146,7 +146,8 @@ ui <- fluidPage(
                         value = 100,
                         step = 1,
                         width = '300px'),
-           nextGenShinyApps::submitButton("runSim", text = "¿Todo listo? ¡Corre tu simulación!", icon("paper-plane"), bg.type = "danger")
+           nextGenShinyApps::submitButton("runSim", text = "¿Todo listo? ¡Corre la simulación!", 
+                                          icon("paper-plane"), bg.type = "danger")
     ),
     column(4,
            tags$h1("Poder estadístico"),
