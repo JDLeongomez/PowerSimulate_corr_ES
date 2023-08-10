@@ -21,7 +21,7 @@ library(plyr)
 library(scales)
 
 input <<- tibble(
-  alts = "Alguna correlación",
+  alts = "Cualquier correlación",
   meanx = 172.2,
   meany = 68.2,
   sdx = 6.4,
@@ -48,7 +48,7 @@ ui <- fluidPage(
       <a style=color:#ff5555;  href='https://jdleongomez.info/es/'>Juan David Leongómez</a>
       · 2023 · <a style=color:#4075de;  href='https://shiny.jdl-svr.lat/PowerSimulate_corr_EN/'>
       English version</a> 
-      · <a style=color:#ff5555;  href='https://shiny.jdl-svr.lat/PowerSimulate_ind_t_EN'>PowerSimulate: Prueba <em>t</em> independiente.</a></center>")),
+      · <a style=color:#ff5555;  href='https://shiny.jdl-svr.lat/PowerSimulate_ind_t_ES'>PowerSimulate: Prueba <em>t</em> independiente.</a></center>")),
   hr(),
   p(HTML("<center>Análisis de poder estadístico basado en la simulación de una población y la probabilidad de 
          obtener un resultado significativo con una muestra aleatoria de un tamaño determinado.<br>Aunque existen herramientas 
@@ -105,7 +105,7 @@ ui <- fluidPage(
                        min = -1,
                        max = 1,
                        value = 0.39,
-                       step = 0.001,
+                       step = 0.01,
                        width = 'auto'),
            tags$h3("Si esta fuera la correlación en la población"),
            plotOutput("effectPlot") %>% 
@@ -131,21 +131,22 @@ ui <- fluidPage(
                        width = '300px'),
            selectInput(inputId = "alts",
                        label = "Hypothesis",
-                       choices = c("Alguna correlación", 
+                       choices = c("Cualquier correlación", 
                                    "Correlación positiva",
                                    "Correlación negativa"
                        )),
            numericInput(inputId = "reps",
-                        label = HTML("Número de simulaciones<br>
-                                     <span style='font-weight:normal'>Números más grandes aumentan la precisión 
-                                     pero requieren más tiempo. Por defecto ejecuta sólo 100 simulaciones, 
+                        label = HTML("Número de simulaciones: 
+                                     <span style='font-weight:normal'>Por defecto se ejecutan sólo 100 simulaciones, 
                                      pero una vez que hayas comprobado todos los parámetros, te sugiero que ejecutes 
-                                     1000+ simulaciones para aumentar la precisión.</span>"),
+                                     1000 o más simulaciones para aumentar la precisión (entre más simulaciones hagas, 
+                                     más tiempo tomará).</span>"),
                         min = 1,
-                        max = 10000000,
+                        max = 1000000,
                         value = 100,
                         step = 1,
-                        width = '300px')
+                        width = '300px'),
+           nextGenShinyApps::submitButton("runSim", text = "¡Correr la simulación!", icon("refresh"), bg.type = "danger")
     ),
     column(4,
            tags$h1("Poder estadístico"),
@@ -178,6 +179,9 @@ server <- function(input, output, session) {
       annotate("text", x = -Inf, y = Inf, 
                hjust = -0.2, vjust = 2, size = 6,
                label = paste0("r = ", input$corrxy)) +
+      stat_regline_equation(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~")),
+                            label.x = -Inf, label.y = Inf,
+                            hjust = -0.1, vjust = 3) +
       labs(x = input$labelx, y = input$labely)
     ggMarginal(p, type = "density", fill = "#ff5555")
   })
@@ -185,7 +189,7 @@ server <- function(input, output, session) {
   # Create object with selected hypothesis alternative
   altern <<- reactive({
     dplyr::case_when(
-      input$alts == "Alguna correlación" ~ "two.sided",
+      input$alts == "Cualquier correlación" ~ "two.sided",
       input$alts == "Correlación positiva" ~ "greater",
       TRUE ~ "less")
   })
@@ -217,7 +221,7 @@ server <- function(input, output, session) {
       labs(y = "Count", x = "p-value") +
       scale_x_continuous(breaks = pretty_breaks(n = 20)) +
       annotate("text", x = 0.5, y = Inf, size = 7, vjust = 2,
-               label = paste0("Power (1 - β) = ", round(sum(dat.sim()$Significance == "Significant") / input$reps, 3))) +
+               label = paste0("Power (1 - β) = ", round(sum(dat.sim()$Significance == "Significant") / input$reps, 2))) +
       annotate("text", x = 0.5, y = Inf, vjust = 5,
                label = paste0("Sample size = ", input$sample_size)) +
       annotate("text", x = 0.5, y = Inf, vjust = 6.5,
@@ -231,8 +235,8 @@ server <- function(input, output, session) {
   output$powText <- renderText({
     paste("<b style=color:#ff5555;>INTERPRETATION: </b>
           El poder no es más que la proporción de resultados significativos  
-          (<em>p</em> < α). Así, si la diferencia real en la población fuera <font color=\'#ff5555\'><b><em>r</em> = ",
-          input$corrxy, "</b></font>, con una muestra aleatoria de <font color=\'#ff5555\'><b>", input$sample_size, 
+          (<em>p</em> < α). Así, si la correlación real en la población fuese <font color=\'#ff5555\'><b><em>r</em> = ",
+          input$corrxy, "</b></font>, con una muestra aleatoria de <font color=\'#ff5555\'><b><em>n</em> = ", input$sample_size, 
           "</b></font>, obtendrías un resultado significativo en aproximadamente el <font color=\'#ff5555\'><b>", 
           percent(round(sum(dat.sim()$Significance == "Significant") / input$reps, 2)),
           "</b></font> de los casos.")
