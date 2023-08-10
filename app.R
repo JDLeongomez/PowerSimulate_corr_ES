@@ -146,7 +146,7 @@ ui <- fluidPage(
                         value = 100,
                         step = 1,
                         width = '300px'),
-           nextGenShinyApps::submitButton("runSim", text = "¡Correr la simulación!", icon("refresh"), bg.type = "danger")
+           nextGenShinyApps::submitButton("runSim", text = "¿Todo listo? ¡Corre tu simulación!", icon("paper-plane"), bg.type = "danger")
     ),
     column(4,
            tags$h1("Poder estadístico"),
@@ -233,7 +233,7 @@ server <- function(input, output, session) {
   })
   
   output$powText <- renderText({
-    paste("<b style=color:#ff5555;>INTERPRETATION: </b>
+    paste("<b style=color:#ff5555;>INTERPRETACIÓN: </b>
           El poder no es más que la proporción de resultados significativos  
           (<em>p</em> < α). Así, si la correlación real en la población fuese <font color=\'#ff5555\'><b><em>r</em> = ",
           input$corrxy, "</b></font>, con una muestra aleatoria de <font color=\'#ff5555\'><b><em>n</em> = ", input$sample_size, 
