@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/JDLeongomez/PowerSimulate_ind_t_ES/master/www/ind_t_esp.svg" align="left" width=400 height=100 alt=""/>
+# <img src="https://github.com/JDLeongomez/PowerSimulate_ind_t_EN/blob/master/www/powersimulate.svg" align="left" width=400 height=100 alt=""/>
 
 ## Correlación
 <br>
