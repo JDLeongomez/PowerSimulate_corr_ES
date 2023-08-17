@@ -208,23 +208,23 @@ server <- function(input, output, session) {
                   .(sample), summarise,
                   p = round(cor.test(x = Xvar, y = Yvar,
                                      alternative = altern())$p.value, 3),
-                  "Significance" = ifelse(p <= sig.lev(), "Significant", "Non-significant"))
+                  "Significación" = ifelse(p <= sig.lev(), "Significativo", "No significativo"))
     return(dato)
   })
   
   # Power simulation plot 
   output$powerPlot <- renderPlot({
-    ggplot(dat.sim(), aes(x = p, fill = Significance)) +
+    ggplot(dat.sim(), aes(x = p, fill = Significación)) +
       scale_fill_hue(direction = -1) +
       geom_histogram(bins = 1/input$alpha, breaks = seq(0, 1, input$alpha), 
                      alpha = 0.8) +
       scale_fill_manual(values = c("#4075de", "#ff5555")) +
-      labs(y = "Count", x = "p-value") +
+      labs(y = "Conteo", x = "Valor p") +
       scale_x_continuous(breaks = pretty_breaks(n = 20)) +
       annotate("text", x = 0.5, y = Inf, size = 7, vjust = 2,
-               label = paste0("Power (1 - β) = ", round(sum(dat.sim()$Significance == "Significant") / input$reps, 2))) +
+               label = paste0("Poder (1 - β) = ", round(sum(dat.sim()$Significación == "Significativo") / input$reps, 2))) +
       annotate("text", x = 0.5, y = Inf, vjust = 5,
-               label = paste0("Sample size = ", input$sample_size)) +
+               label = paste0("Tamaño de muestra = ", input$sample_size)) +
       annotate("text", x = 0.5, y = Inf, vjust = 6.5,
                label = paste0("α = ", input$alpha)) +
       theme(legend.position="bottom", 
@@ -239,7 +239,7 @@ server <- function(input, output, session) {
           (<em>p</em> < α). Así, si la correlación real en la población fuese <font color=\'#ff5555\'><b><em>r</em> = ",
           input$corrxy, "</b></font>, con una muestra aleatoria de <font color=\'#ff5555\'><b><em>n</em> = ", input$sample_size, 
           "</b></font>, obtendrías un resultado significativo en aproximadamente el <font color=\'#ff5555\'><b>", 
-          percent(round(sum(dat.sim()$Significance == "Significant") / input$reps, 2)),
+          percent(round(sum(dat.sim()$Significación == "Significativo") / input$reps, 2)),
           "</b></font> de los casos.")
   })
 }
