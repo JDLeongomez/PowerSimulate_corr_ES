@@ -48,7 +48,7 @@ ui <- fluidPage(
       <a style=color:#ff5555;  href='https://jdleongomez.info/es/'>Juan David Leongómez</a>, Universidad El Bosque
       · 2023 · <a style=color:#4075de;  href='https://shiny.jdl-svr.lat/PowerSimulate_corr_EN/'>
       English version</a> 
-      · <a style=color:#ff5555;  href='https://shiny.jdl-svr.lat/PowerSimulate_ind_t_ES'>PowerSimulate: Prueba <em>t</em> independiente.</a></center>")),
+      · Ver lista de apps <a style=color:#ff5555;  href='https://shiny.jdl-svr.lat/PowerSimulate'>PowerSimulate</a></center>")),
   hr(),
   p(HTML("<center>Análisis de poder estadístico basado en la simulación de una población y la probabilidad de 
          obtener un resultado significativo con una muestra aleatoria de un tamaño determinado.<br>Aunque existen herramientas 
