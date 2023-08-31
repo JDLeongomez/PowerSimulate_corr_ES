@@ -130,7 +130,7 @@ ui <- fluidPage(
                        step = 0.001,
                        width = '300px'),
            selectInput(inputId = "alts",
-                       label = "Hypothesis",
+                       label = "Hipótesis",
                        choices = c("Cualquier correlación", 
                                    "Correlación positiva",
                                    "Correlación negativa"
